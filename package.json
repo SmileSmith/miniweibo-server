@@ -1,0 +1,27 @@
+{
+  "name": "miniweibo-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SmileSmith/miniweibo-server.git"
+  },
+  "keywords": [
+    "miniweibo",
+    "spider"
+  ],
+  "author": "chenlongde",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SmileSmith/miniweibo-server/issues"
+  },
+  "homepage": "https://github.com/SmileSmith/miniweibo-server#readme",
+  "devDependencies": {
+    "node-fetch": "^2.1.1",
+    "puppeteer": "^1.2.0"
+  }
+}
