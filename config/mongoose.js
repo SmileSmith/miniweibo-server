@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const debug = require('debug')('foo:server');
 
 const config = require('./mongodb');
 
@@ -8,7 +9,7 @@ module.exports = () => {
   const db = mongoose.connection;
   db.on('error', console.error.bind(console, '连接错误：'));
   db.once('open', (callback) => {
-    console.log('MongoDB连接成功！！');
+    debug(`MongoDB open on ${config.mongodb}`);
   });
   return db;
 };

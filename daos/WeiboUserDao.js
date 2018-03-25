@@ -1,52 +1,49 @@
 const WeiboUser = require('../models/WeiboUser');
-const WeiboAOUTH = require('../models/WeiboAOUTH');
+const WeiboOAUTH = require('../models/WeiboOAUTH');
+
+/**
+ * 检测是否存在
+ *
+ * @param {any} doc
+ * @param {any} param
+ * @returns
+ */
+function checkNull(doc, param) {
+  if (doc === null) {
+    return {
+      code: 1002,
+      msg: `no [${param}] in db`
+    };
+  }
+  return doc;
+}
+
+/**
+ * 检测是否存在
+ *
+ * @param {any} doc
+ * @param {any} param
+ * @returns
+ */
+function dbErr(msg = 'db error') {
+  return {
+    code: 1001,
+    msg
+  };
+}
 
 module.exports = {
   getUidByOpenid: async (openid) => {
     const result = await WeiboUser.findOne({ openid }).then(
-      (doc) => {
-        if (doc !== null) {
-          return {
-            uid: doc.uid
-          };
-        }
-        return {
-          code: 1002,
-          msg: 'no login before'
-        };
-      },
-      err => ({
-        code: 1001,
-        msg: 'db error'
-      })
+      (doc) => checkNull(doc, openid),
+      (err) => dbErr()
     );
     return result;
   },
   getAccessToken: async (uid) => {
-    const result = await WeiboAOUTH.findOne({ uid }).then(
-      (doc) => {
-        if (doc !== null) {
-          const now = new Date().getTime();
-          const expires = doc.expires_in;
-          if (now <= expires) {
-            return {
-              token: doc.access_token
-            };
-          }
-          return {
-            code: 1003,
-            msg: 'weibo token expired'
-          };
-        }
-        return {
-          code: 1004,
-          msg: 'no weibo aouth before'
-        };
-      },
-      err => ({
-        code: 1001,
-        msg: 'db error'
-      })
+    const result = await WeiboOAUTH.findOne({ uid }).then(
+      (doc) => checkNull(doc, uid),
+      (err) => dbErr()
     );
     return result;
   },
@@ -58,7 +55,7 @@ module.exports = {
 
     const expireIn = new Date().getTime() + (weiboInfo.expires_in * 1000);
 
-    const weiboaouth = new WeiboAOUTH({
+    const weibooauth = new WeiboOAUTH({
       access_token: weiboInfo.access_token,
       expires_in: expireIn,
       uid: weiboInfo.uid
@@ -66,8 +63,8 @@ module.exports = {
     weibouser.save((err) => {
       console.log(`save weibouser ${openid}:`, err ? 'failed' : 'success');
     });
-    weiboaouth.save((err) => {
-      console.log(`save weiboaouth ${weiboInfo.uid}:`, err ? 'failed' : 'success');
+    weibooauth.save((err) => {
+      console.log(`save weibooauth ${weiboInfo.uid}:`, err ? 'failed' : 'success');
     });
   }
 };

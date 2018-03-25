@@ -15,5 +15,6 @@ module.exports = {
       'linebreak-style': 0,
       'no-restricted-globals': 0,
       'no-unused-vars': 0,
+      'arrow-parens': 0
     }
   }
