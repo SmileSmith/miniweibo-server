@@ -20,12 +20,12 @@ function checkAccessToken(doc) {
     const expires = doc.expires_in;
     if (now <= expires) {
       return {
-        token: doc.access_token
+        access_token: doc.access_token
       };
     }
     return {
       code: 1003,
-      msg: 'weibo token expired'
+      msg: 'weibo access_token expired'
     };
   }
   return {
@@ -62,11 +62,11 @@ module.exports = {
     let weiboTokenDB = await WeiboUserDao.getAccessToken(weiboIdDB.uid);
     log.info('READ weiboAccessToken: ', weiboTokenDB);
     weiboTokenDB = checkAccessToken(weiboTokenDB);
-    if (!weiboTokenDB.token) {
+    if (!weiboTokenDB.access_token) {
       weiboTokenDB.openid = openid;
       return weiboTokenDB;
     }
-    return { token: weiboTokenDB.token };
+    return { access_token: weiboTokenDB.access_token };
   },
   loginWeibo: async (data) => {
     const { username, password, openid } = data;
@@ -75,6 +75,6 @@ module.exports = {
 
     WeiboUserDao.setWeiboInfo(openid, weiboAccessData);
 
-    return { token: weiboAccessData.access_token };
+    return { access_token: weiboAccessData.access_token };
   }
 };

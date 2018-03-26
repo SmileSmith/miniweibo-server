@@ -1,0 +1,15 @@
+{
+  "apps": [
+    {
+      "name": "Mini Weibo",
+      "script": "./bin/www",
+      "exec_mode" : "cluster",
+      "instances"  : 4,
+      "cwd": "./",
+      "watch": ["bin", "config", "daos", "routes", "schemas", "services", "spider"],
+      "error_file": "./log/pm2-error.log",
+      "out_file": "./log/pm2-out.log",
+      "log_date_format": "YYYY-MM-DD HH:mm Z"
+    }
+  ]
+}
