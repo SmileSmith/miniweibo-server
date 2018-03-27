@@ -16,6 +16,12 @@
           "request": "launch",
           "name": "Test OAuth2.0",
           "program": "${workspaceFolder}\\spider\\oauth.js"
-      }
+      },
+      {
+          "type": "node",
+          "request": "launch",
+          "name": "Test m.weibo.cn",
+          "program": "${workspaceFolder}\\spider\\mweibo.js"
+      },
     ]
 }
